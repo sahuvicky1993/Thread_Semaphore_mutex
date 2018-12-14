@@ -1,0 +1,7 @@
+git clone
+
+// How to add file to existing repo
+git add file_name
+git status
+git commit -m "commit msg"
+git push origin 
