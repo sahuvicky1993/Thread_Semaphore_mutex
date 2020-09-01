@@ -21,3 +21,13 @@ ret = pthread_attr_setschedparam (&tattr, &param);
 
 /* with new priority specified */
 ret = pthread_create (&tid, &tattr, func, arg);
+
+Advance Level >>>>> Set Priority
+Prioriyt level Linux 1 and 99.
+       int sched_setscheduler(pid_t pid, int policy,
+                              const struct sched_param *param);
+       SCHED_OTHER   the standard round-robin time-sharing policy;
+       SCHED_BATCH   for "batch" style execution of processes; and
+       SCHED_IDLE    for running very low priority background jobs.
+for special time-critical applications that need precise control over the way in which runnable threads are selected for execution
+      Real time policy: SCHED_FIFO    SCHED_RR      
