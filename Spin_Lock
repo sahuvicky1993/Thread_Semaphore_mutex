@@ -1,0 +1,28 @@
+~Why Sleep() is called after spin_unlock()
+  Sleeping a little bit was a simple way to guarantee that the thread holding the lock got the CPU.
+
+~Why SPIN LOCK is good choice in kernel programming
+  Spinlocks are not the only way to synchronize multiple threads. Mutexes/semaphores are also used in the Linux kernel, as are other synchronization primitives 
+  (e.g. waitqueues, events).
+  However the kernel has to deal with cases that userspace never sees, a common one being interrupt handlers. Interrupt handlers can not be rescheduled on Linux, 
+  but often do have to use some synchronization primitive (e.g. to add a work item to a linked list that some other thread will process further). Since interrupt 
+  handlers are not able to sleep, they can't use mutexes, waitqueues, etc. That pretty much leaves spinlocks. If a thread needs to synchronize access with an 
+  interrupt handler, then it must also use the same spinlock.
+  
+Common usecase of spin_lock
+  System_calls
+    spinlock_t etx_spinlock;
+    spin_lock_init(&etx_spinlock);
+    spin_lock(spinlock_t *lock)
+    spin_trylock(spinlock_t *lock) //Locks the spinlock if it is not already locked. If unable to obtain the lock it exits with an error and do not spin. It returns non-zero if it obtains the lock otherwise returns zero.
+    spin_is_locked(spinlock_t *lock) // It returns non-zero if the lock is currently acquired. otherwise returns zero.
+    
+        spin_lock(&etx_spinlock);
+        if(spin_is_locked(&etx_spinlock)) {
+            pr_info("Spinlock is locked in Thread Function1\n");
+        }
+        etx_global_variable++;
+        spin_unlock(&etx_spinlock);
+        msleep(1000);
+  
+  https://github.com/Embetronicx/Tutorials/blob/master/Linux/Device_Driver/Spinlock/Spinlock/driver.c
