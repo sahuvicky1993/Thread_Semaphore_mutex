@@ -1,0 +1,12 @@
+http://www.embeddedlinux.org.cn/essentiallinuxdevicedrivers/final/ch06lev1sec2.html#:~:text=struct%20uart_driver%20%7B%20struct%20module%20*owner,%2F*%20tty%20driver%20*%2F%20%7D%3B
+http://www.embeddedlinux.org.cn/essentiallinuxdevicedrivers/final/ch13.html#ch13
+
+USB_UART
+Few Basics
+device_register() adds device to device list and iterates over driver list to find the match
+driver_register() adds driver to driver list and iterates over device list to find the match
+>> calling in any Order 
+Once match is found, matched device and driver are binded and corresponding probe function is called in driver code.
+
+MUST READ
+https://stackoverflow.com/questions/35220964/difference-between-uart-register-driver-and-platform-driver-register
